@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+// Components
+import SplashScreen from './components/SplashScreen';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
+import DroneConfig from './components/DroneConfig';
+import VideoFeed from './components/VideoFeed';
+import Mapping from './components/Mapping';
+import RemoteControl from './components/RemoteControl';
+
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#2196f3',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          <Route path="/" element={<SplashScreen />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route path="config" element={<DroneConfig />} />
+            <Route path="video" element={<VideoFeed />} />
+            <Route path="mapping" element={<Mapping />} />
+            <Route path="control" element={<RemoteControl />} />
+            <Route index element={<Navigate to="config" replace />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 
